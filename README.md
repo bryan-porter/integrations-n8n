@@ -121,18 +121,38 @@ Store wallet material in n8n credentials when working with real funds. The node 
 
 The node does not log or return wallet secrets, seeds, private keys, or API keys. Review n8n execution-data retention and access controls before using signing operations in production.
 
+The local Compose example is pinned to n8n 2.44.6 and binds only to
+`127.0.0.1:5678`. Its Node 26.12.1 runtime includes the October 21, 2026 Node
+security fixes. An October 22 scan still found vulnerable dependencies bundled
+inside that vendor image, including critical findings in Handlebars and
+`@simple-git/argv-parser`. Treat this example as a local development environment
+with synthetic credentials and no real funds. Keep the editor private and use a
+vendor image with resolved advisories before a production deployment. Updating
+this node package does not update dependencies bundled inside an n8n server.
+
 ## Compatibility
 
 | Component | Requirement |
 | --- | --- |
 | n8n node metadata | Nodes API v1 |
-| Node.js runtime and development | 22.22.0 or newer |
+| Node.js runtime and development | 22.23.4+ on 22.x, 24.22.1+ on 24.x, or 26.12.1+ on 26.x |
 | Package manager | npm |
 | Container integration tests | Docker or a local Podman socket |
 
-The Node.js requirement is checked when npm installs the package. The official current n8n container image uses a compatible runtime; custom installations must provide Node.js 22.22.0 or newer.
+The supported Node.js range is declared in package metadata. Development/build
+commands check the runtime and trusted certificate stores. Use
+`npm run check:runtime` after installation to verify the current process. Custom installations must use
+one of the patched stable release lines above with TLS verification enabled.
 
 ## Development
+
+The development lock includes upstream-pinned tooling dependencies with open
+security advisories as of October 22, 2026. Strict n8n Cloud validation does not
+permit root dependency overrides. Keep the supported dependency graph and
+update upstream tooling when compatible fixes become available; do not use the
+development tools to process untrusted templates or workflows. These tooling
+dependencies are separate from Commons Core bundled into the published node
+and from the n8n host image, which must each be assessed independently.
 
 Install dependencies and run the checks:
 

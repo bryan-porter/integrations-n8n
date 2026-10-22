@@ -1,9 +1,9 @@
 services:
   n8n:
-    image: docker.io/n8nio/n8n:latest
+    image: docker.io/n8nio/n8n:2.44.6@sha256:d02752c6ab446ae9db8deec2f9cc887c378f77cdcad31650814df936b7386dfb
     user: "0"
     ports:
-      - "5678:5678"
+      - "127.0.0.1:5678:5678"
     environment:
       N8N_USER_FOLDER: /home/node
       N8N_COMMUNITY_PACKAGES_ENABLED: "true"
